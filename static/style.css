@@ -1,0 +1,111 @@
+:root {
+    --umass-maroon: #881c1c;
+    --umass-maroon-dark: #6f1515;
+    --muted: #6b7280;
+}
+
+/* Banner */
+.site-banner {
+    background-color: var(--umass-maroon);
+    color: #fff;
+}
+
+.text-muted-light {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.9rem;
+}
+
+/* Home nav (below banner) */
+.home-nav {
+    background: #fff;
+    border-bottom: 1px solid #eee;
+}
+
+.home-nav .btn-maroon {
+    margin-left: 0.25rem;
+}
+
+/* Buttons */
+.btn-maroon {
+    background-color: var(--umass-maroon);
+    color: white;
+    border: none;
+}
+
+.btn-maroon:hover {
+    background-color: var(--umass-maroon-dark);
+    color: white;
+}
+
+.btn-outline-maroon {
+    border: 1px solid var(--umass-maroon);
+    color: var(--umass-maroon);
+    background: transparent;
+}
+
+.text-maroon {
+    color: var(--umass-maroon);
+}
+
+/* Cards/icons */
+.tile-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+.tile-icon svg {
+    display: block;
+}
+
+/* Info card */
+.info-card {
+    border-left: 4px solid #cfe7ff;
+    background: #f5fbff;
+}
+
+/* Badges */
+.badge {
+    padding: 6px 10px;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 600;
+}
+
+.badge-received {
+    background: #6c757d;
+}
+
+/* gray */
+.badge-inreview {
+    background: #f59e0b;
+}
+
+/* amber */
+.badge-resolved {
+    background: #10b981;
+}
+
+/* green */
+
+/* small */
+.text-monospace {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+}
+
+/* responsiveness tweaks */
+@media (max-width: 767px) {
+    .site-banner .container {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+    }
+
+    .home-nav .container {
+        text-align: left;
+    }
+}

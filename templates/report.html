@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block title %}Submit Report — USee{% endblock %}
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h4 class="card-title">Submit an Anonymous Report</h4>
+
+        {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+
+        <form id="reportForm" method="post" action="/report">
+            <div class="mb-3">
+                <label class="form-label">Your UMass Email</label>
+                <input id="emailField" class="form-control" type="email" placeholder="name@umass.edu" required>
+                <div class="form-text"> Required for verification. Used only to confirm you're a UMass student.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Subject</label>
+                <input id="subject" name="subject" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea id="description" name="description" class="form-control" rows="6" required></textarea>
+            </div>
+
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" value="" id="trackCheckbox">
+                <label class="form-check-label" for="trackCheckbox">
+                    I want to receive anonymous updates
+                </label>
+            </div>
+
+            <div id="tokenSection" style="display:none;">
+                <div class="mb-2">
+                    <button id="generateBtn" type="button" class="btn btn-outline-maroon btn-sm">Generate Anonymous
+                        Token</button>
+                    <small class="ms-2 text-monospace" id="tokenDisplay"></small>
+                </div>
+                <input id="tokenInput" type="hidden" name="token" value="">
+                <div class="form-text mb-3">Save this token if you want to check status later.</div>
+            </div>
+
+            <button id="submitBtn" class="btn btn-maroon" type="submit">Submit Report</button>
+        </form>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+    // token generator: 10-char alphanum (client-side)
+    function genToken(len = 10) {
+        const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+        let t = "";
+        const array = new Uint32Array(len);
+        crypto.getRandomValues(array);
+        for (let i = 0; i < len; i++) {
+            t += chars[array[i] % chars.length];
+        }
+        return t;
+    }
+
+    const trackCheckbox = document.getElementById('trackCheckbox');
+    const tokenSection = document.getElementById('tokenSection');
+    const generateBtn = document.getElementById('generateBtn');
+    const tokenInput = document.getElementById('tokenInput');
+    const tokenDisplay = document.getElementById('tokenDisplay');
+    const emailField = document.getElementById('emailField');
+    const form = document.getElementById('reportForm');
+
+    trackCheckbox.addEventListener('change', () => {
+        tokenSection.style.display = trackCheckbox.checked ? 'block' : 'none';
+        if (!trackCheckbox.checked) {
+            tokenInput.value = '';
+            tokenDisplay.textContent = '';
+        }
+    });
+
+    generateBtn.addEventListener('click', () => {
+        const email = emailField.value.trim();
+        if (!/^[^@]+@umass\.edu$/i.test(email)) {
+            alert('Email must be an @umass.edu address. This check is local and your email will not be stored.');
+            return;
+        }
+        const t = genToken(10);
+        tokenInput.value = t;
+        tokenDisplay.textContent = t;
+    });
+
+    // ensure token present if checkbox & generated
+    form.addEventListener('submit', (e) => {
+        if (trackCheckbox.checked && !tokenInput.value) {
+            e.preventDefault();
+            alert('Please generate an anonymous token before submitting.');
+            return;
+        }
+    });
+</script>
+{% endblock %}
+{% endblock %}

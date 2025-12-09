@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Check Report Status — USee{% endblock %}
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h4>Check Report Status</h4>
+        <form method="post" action="/status">
+            <div class="mb-3">
+                <label class="form-label">Enter your anonymous token</label>
+                <input name="token" class="form-control" required>
+            </div>
+            <button class="btn btn-maroon" type="submit">View Status</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

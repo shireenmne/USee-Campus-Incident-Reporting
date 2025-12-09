@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Report #{{ report.id }} — USee{% endblock %}
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h4>Report #{{ report.id }} <small class="text-muted">(<code>{{ report.token }}</code>)</small></h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-3">Submitted</dt>
+            <dd class="col-sm-9">{{ report.submitted_at }}</dd>
+            <dt class="col-sm-3">Subject</dt>
+            <dd class="col-sm-9">{{ report.subject }}</dd>
+            <dt class="col-sm-3">Description</dt>
+            <dd class="col-sm-9" style="white-space:pre-wrap">{{ report.description }}</dd>
+            <dt class="col-sm-3">Status</dt>
+            <dd class="col-sm-9">{{ report.status }}</dd>
+        </dl>
+
+        <hr />
+
+        <!-- Status Update Form -->
+        <form method="post" action="/admin/report/{{ report.id }}/status">
+            <div class="mb-3">
+                <label class="form-label">Change status</label>
+                <select class="form-select" name="new_status">
+                    <option value="Received" {% if report.status=="Received" %}selected{% endif %}>Received</option>
+                    <option value="In Review" {% if report.status=="In Review" %}selected{% endif %}>In Review</option>
+                    <option value="Resolved" {% if report.status=="Resolved" %}selected{% endif %}>Resolved</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Admin response (optional)</label>
+                <textarea class="form-control" name="admin_response"
+                    rows="4">{{ report.admin_response or "" }}</textarea>
+            </div>
+
+            <button class="btn btn-maroon" type="submit">Save</button>
+            <a class="btn btn-secondary ms-2" href="/admin/dashboard">Back to list</a>
+        </form>
+
+        <hr />
+
+        <!-- Delete Form (separate!) -->
+        <form action="/admin/report/{{ report.id }}/delete" method="post"
+            onsubmit="return confirm('Are you sure you want to delete this report? This cannot be undone.');">
+            <button type="submit" class="btn btn-danger">Delete Report</button>
+        </form>
+
+    </div>
+</div>
+{% endblock %}

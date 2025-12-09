@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Report Status — USee{% endblock %}
+{% block content %}
+{% if not found %}
+<div class="alert alert-warning">No report found for token: <strong>{{ token }}</strong></div>
+<a class="btn btn-outline-maroon" href="/report">Submit a new report</a>
+{% else %}
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h4>Report status</h4>
+        <dl class="row">
+            <dt class="col-sm-3">Token</dt>
+            <dd class="col-sm-9"><code>{{ report.token }}</code></dd>
+            <dt class="col-sm-3">Submitted</dt>
+            <dd class="col-sm-9">{{ report.submitted_at }}</dd>
+            <dt class="col-sm-3">Subject</dt>
+            <dd class="col-sm-9">{{ report.subject }}</dd>
+            <dt class="col-sm-3">Description</dt>
+            <dd class="col-sm-9" style="white-space:pre-wrap">{{ report.description }}</dd>
+            <dt class="col-sm-3">Status</dt>
+            <dd class="col-sm-9">{{ report.status }}</dd>
+            {% if report.admin_response %}
+            <dt class="col-sm-3">Admin Response</dt>
+            <dd class="col-sm-9" style="white-space:pre-wrap">{{ report.admin_response }}</dd>
+            {% endif %}
+        </dl>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

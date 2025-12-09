@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard — USee{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Admin Dashboard</h3>
+    <a href="/admin/logout" class="btn btn-outline-secondary btn-sm">Logout</a>
+</div>
+
+{% if reports %}
+<div class="table-responsive">
+    <table class="table table-hover align-middle">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Token</th>
+                <th>Submitted</th>
+                <th>Subject</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in reports %}
+            <tr>
+                <td>{{ r.id }}</td>
+                <td><code>{{ r.token }}</code></td>
+                <td>{{ r.submitted_at }}</td>
+                <td>{{ r.subject }}</td>
+                <td><span class="badge
+              {% if r.status == 'Resolved' %}badge-resolved
+              {% elif r.status == 'In Review' %}badge-inreview
+              {% else %}badge-received{% endif %}">{{ r.status }}</span></td>
+                <td>
+                    <a class="btn btn-sm btn-maroon" href="/admin/report/{{ r.id }}">View</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<p>No reports yet.</p>
+{% endif %}
+{% endblock %}
